@@ -6,6 +6,7 @@ use clap::Args;
 use itertools::Itertools;
 use serde::Deserialize;
 use std::collections::{HashMap, HashSet};
+use std::env::current_dir as cwd;
 use std::mem;
 use std::time::Instant;
 use tokio::fs;
@@ -107,8 +108,8 @@ struct SearchResultMeta {
 }
 
 async fn write_crates(crates: &[Crate], pretty: bool) -> Result<()> {
-  let path = "web/static/crates.json";
-  println!("writing crates to {path}");
+  let path = cwd()?.join("web/static/crates.json");
+  println!("writing crates to {}", path.display());
 
   let contents = if pretty {
     serde_json::to_vec_pretty(crates)?
@@ -116,9 +117,15 @@ async fn write_crates(crates: &[Crate], pretty: bool) -> Result<()> {
     serde_json::to_vec(crates)?
   };
 
-  println!("{} bytes written ({} crates)", contents.len(), crates.len());
+  if let Some(parent) = path.parent() {
+    fs::create_dir_all(parent).await?;
+  }
 
-  Ok(fs::write(path, contents).await?)
+  let bytes = contents.len();
+  fs::write(path, contents).await?;
+  println!("{} bytes written ({} crates)", bytes, crates.len());
+
+  Ok(())
 }
 
 fn print_page_download(current: u64, total: u64) {
