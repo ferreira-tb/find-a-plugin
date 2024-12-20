@@ -1,0 +1,1 @@
+type GridMode = 'all' | 'bookmarks';

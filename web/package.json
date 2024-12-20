@@ -1,0 +1,16 @@
+{
+  "name": "find-a-plugin",
+  "version": "0.1.0",
+  "type": "module",
+  "packageManager": "pnpm@9.15.0",
+  "private": true,
+  "scripts": {
+    "build": "vite build",
+    "check": "svelte-kit sync && svelte-check --tsconfig ./tsconfig.json",
+    "check:watch": "svelte-kit sync && svelte-check --tsconfig ./tsconfig.json --watch",
+    "dev": "vite dev"
+  },
+  "dependencies": {
+    "wasm": "workspace:*"
+  }
+}
