@@ -17,7 +17,6 @@ workspace = true
 
 [dependencies]
 anyhow = "1.0"
-colored = "2.2"
 http = "1.2"
 itertools = "0.13"
 regex = "1.11"

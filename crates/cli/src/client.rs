@@ -1,5 +1,4 @@
 use anyhow::{bail, Result};
-use colored::Colorize;
 use http::Method;
 use reqwest::{Client, Response};
 use serde::de::DeserializeOwned;
@@ -66,13 +65,7 @@ async fn request(method: Method, url: &str) -> Result<Response> {
   if !status.is_success() {
     let url = response.url().to_owned();
     let message = response.text().await?;
-    bail!(
-      "{} {}\nurl: {}\nreason: {}",
-      "REQUEST FAILED".red().bold(),
-      format!("({status})").red().bold(),
-      url,
-      message
-    );
+    bail!("REQUEST FAILED ({status})\nurl: {url}\nreason: {message}");
   }
 
   spawn(async move {

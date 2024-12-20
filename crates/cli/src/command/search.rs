@@ -3,11 +3,9 @@ use crate::model::{Crate, CrateName};
 use crate::version::VersionExt;
 use anyhow::{Context, Result};
 use clap::Args;
-use colored::Colorize;
 use itertools::Itertools;
 use serde::Deserialize;
 use std::collections::{HashMap, HashSet};
-use std::env::current_dir;
 use std::mem;
 use std::time::Instant;
 use tokio::fs;
@@ -27,7 +25,7 @@ impl Search {
     let start = Instant::now();
     self.search_crates().await?;
 
-    println!("{}", format!("done in {:?}", start.elapsed()).green());
+    println!("done in {:?}", start.elapsed());
 
     Ok(())
   }
@@ -42,10 +40,7 @@ impl Search {
     let mut result = client::get::<SearchResult>(&url).await?;
     let mut next_page = result.meta.next_page.take();
 
-    println!(
-      "{}",
-      format!("found {} matching crates", result.meta.total).green()
-    );
+    println!("found {} matching crates", result.meta.total);
 
     let mut current_page = 1;
     let total_pages = (result.meta.total as f64 / 100.0).ceil() as u64;
@@ -84,11 +79,7 @@ impl Search {
 
     for krate in crates.values_mut() {
       if let Err(err) = krate.update_fields().await {
-        eprintln!(
-          "{}\n{}\n",
-          format!("failed to update {}:", krate.name).red(),
-          err
-        );
+        eprintln!("failed to update: {}\n{}\n", krate.name, err);
       }
     }
 
@@ -116,8 +107,8 @@ struct SearchResultMeta {
 }
 
 async fn write_crates(crates: &[Crate], pretty: bool) -> Result<()> {
-  let path = current_dir()?.join("web/static/crates.json");
-  println!("{}", format!("writing crates to {}", path.display()).cyan());
+  let path = "web/static/crates.json";
+  println!("writing crates to {path}");
 
   let contents = if pretty {
     serde_json::to_vec_pretty(crates)?
@@ -125,16 +116,13 @@ async fn write_crates(crates: &[Crate], pretty: bool) -> Result<()> {
     serde_json::to_vec(crates)?
   };
 
-  println!(
-    "{}",
-    format!("{} bytes written ({} crates)", contents.len(), crates.len()).green()
-  );
+  println!("{} bytes written ({} crates)", contents.len(), crates.len());
 
   Ok(fs::write(path, contents).await?)
 }
 
 fn print_page_download(current: u64, total: u64) {
-  println!("{}", format!("downloading page {current}/{total}").cyan());
+  println!("downloading page {current}/{total}");
 }
 
 fn to_crate_name_set(vec: &mut Vec<String>) -> HashSet<CrateName> {

@@ -1,7 +1,6 @@
 use crate::client::{self, CRATES_IO, CRATES_IO_API};
 use crate::return_if_ne;
 use anyhow::{anyhow, Result};
-use colored::Colorize;
 use regex::Regex;
 use semver::Version;
 use serde::{Deserialize, Deserializer, Serialize, Serializer};
@@ -53,7 +52,7 @@ impl Crate {
   }
 
   pub async fn update_fields(&mut self) -> Result<()> {
-    println!("{}", format!("updating {}", self.name).cyan());
+    println!("updating {}", self.name);
 
     self.links.set_origin();
     self.set_plugin_name();
