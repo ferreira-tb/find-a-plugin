@@ -1,5 +1,5 @@
 import { writable } from 'svelte/store';
-import { handleError } from '$lib/error';
+import { handleError } from '$lib/utils';
 import { get_plugins, init, type Plugin } from 'wasm';
 
 class PluginData {

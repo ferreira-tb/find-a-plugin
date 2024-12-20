@@ -1,8 +1,6 @@
 name: Deploy docs
 
 on:
-  push:
-    branches: [main]
   schedule:
     - cron: '45 14 * * *'
 
@@ -36,7 +34,7 @@ jobs:
         run: |
           rustup target add wasm32-unknown-unknown
           cargo install wasm-pack
-          scripts/Get-Crates.ps1
+          scripts/get-crates.ps1
           pnpm install
           pnpm run build
           touch web/dist/.nojekyll

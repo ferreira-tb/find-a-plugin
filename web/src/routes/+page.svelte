@@ -1,9 +1,9 @@
 <script lang="ts">
+  import * as wasm from 'wasm';
+  import { onMount } from 'svelte';
   import { pluginData, gridMode, bookmark, search } from '$lib/stores';
   import { Grid } from '$lib/components';
-  import { onMount } from 'svelte';
-  import * as wasm from 'wasm';
-  import { handleError } from '$lib/error';
+  import { handleError } from '$lib/utils';
 
   const plugins = $derived.by(() => {
     let values = $pluginData;

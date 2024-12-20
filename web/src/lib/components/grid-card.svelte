@@ -5,7 +5,7 @@
   import ExternalLink from './external-link.svelte';
   import { formatInteger } from '$lib/intl';
   import { Calendar, Download } from 'lucide-svelte';
-  import { since } from '$lib/date';
+  import { since } from '$lib/utils';
   import { innerWidth } from 'svelte/reactivity/window';
   import type { Plugin } from 'wasm';
   import { bookmark } from '$lib/stores';
@@ -67,12 +67,14 @@
           <span>Updated: {since(plugin.updated_at)}</span>
         </div>
       {/if}
+
       {#snippet download(text: string)}
         <div class="flex select-none items-center gap-1">
           <Download class="size-4" />
           <span>{text}</span>
         </div>
       {/snippet}
+
       {@render download(`Recent: ${formatInteger(plugin.recent_downloads)}`)}
       {@render download(`Total: ${formatInteger(plugin.downloads)}`)}
     </div>

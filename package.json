@@ -5,7 +5,7 @@
   "packageManager": "pnpm@9.15.0",
   "private": true,
   "scripts": {
-    "build": "pwsh scripts/Build-Wasm.ps1 && pnpm run -F find-a-plugin build",
+    "build": "pwsh scripts/build-wasm.ps1 && pnpm run -F find-a-plugin build",
     "check": "pnpm run -F find-a-plugin check",
     "check:watch": "pnpm run -F find-a-plugin check:watch",
     "clippy": "cargo clippy --all",
