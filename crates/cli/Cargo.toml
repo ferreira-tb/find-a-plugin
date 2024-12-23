@@ -2,15 +2,9 @@
 name = "cli"
 version = "0.1.0"
 publish = false
-
-[package.edition]
-workspace = true
-
-[package.rust-version]
-workspace = true
-
-[package.repository]
-workspace = true
+edition.workspace = true
+rust-version.workspace = true
+repository.workspace = true
 
 [lints]
 workspace = true
